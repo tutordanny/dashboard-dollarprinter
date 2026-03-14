@@ -6,6 +6,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import api from '../utils/api';
+import BotBuilderWorkspace from '../components/BotBuilderWorkspace';
 
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip);
 
@@ -443,86 +444,6 @@ function BotRunningView() {
 }
 
 /* ─── Bot Builder Tab ─── */
-function BotBuilderTab({ user, onLogin, botRunning, onStartBot, onStopBot }) {
-  const [stake, setStake] = useState(10);
-  const [direction, setDirection] = useState('up');
-  const [duration, setDuration] = useState(5);
-  const [botName, setBotName] = useState('My Trading Bot');
-  const [loading, setLoading] = useState(false);
-
-  const handleStart = async () => {
-    if (!user) { onLogin(); return; }
-    setLoading(true);
-    try { await onStartBot({ stake:Number(stake), direction, duration:Number(duration), name:botName }); }
-    catch {}
-    setLoading(false);
-  };
-
-  return (
-    <div style={{ flex:1, padding:32, overflowY:'auto' }}>
-      <div style={{ maxWidth:800, margin:'0 auto' }}>
-        <h2 style={{ fontSize:20, fontWeight:700, color:'#333', marginBottom:6 }}>Bot Builder</h2>
-        <p style={{ color:'#999', fontSize:13, marginBottom:28 }}>Configure your automated trading bot strategy below.</p>
-
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:20, marginBottom:20 }}>
-          {[
-            { label:'Bot Name', content:(
-              <input className="input-field" value={botName} onChange={e=>setBotName(e.target.value)} placeholder="My Trading Bot" />
-            )},
-            { label:'Stake Amount ($)', content:(
-              <input className="input-field" type="number" value={stake} onChange={e=>setStake(e.target.value)} min={1} step={1} />
-            )},
-            { label:'Trade Direction', content:(
-              <div style={{ display:'flex', gap:8 }}>
-                {['up','down'].map(d => (
-                  <button key={d} onClick={()=>setDirection(d)} style={{
-                    flex:1, padding:'10px', borderRadius:4, cursor:'pointer', fontWeight:700, fontSize:13,
-                    border:`1px solid ${direction===d?(d==='up'?'#26a69a':'#ff444f'):'#e5e5e5'}`,
-                    background:direction===d?(d==='up'?'#e8f5e9':'#fce4e4'):'#fff',
-                    color:direction===d?(d==='up'?'#26a69a':'#ff444f'):'#666',
-                  }}>
-                    {d==='up'?'▲ Rise':'▼ Fall'}
-                  </button>
-                ))}
-              </div>
-            )},
-            { label:'Duration (seconds)', content:(
-              <input className="input-field" type="number" value={duration} onChange={e=>setDuration(e.target.value)} min={2} max={60} />
-            )},
-          ].map(({ label, content }) => (
-            <div key={label}>
-              <label style={{ display:'block', fontSize:12, fontWeight:600, color:'#666', marginBottom:8, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</label>
-              {content}
-            </div>
-          ))}
-        </div>
-
-        <div style={{ padding:'16px 20px', background:'#f9f9f9', border:'1px solid #e5e5e5', borderRadius:8, marginBottom:24, fontSize:13, color:'#666' }}>
-          <strong style={{ color:'#333' }}>Strategy summary:</strong> Stake <strong>${stake}</strong> in the{' '}
-          <strong style={{ color:direction==='up'?'#26a69a':'#ff444f' }}>{direction==='up'?'▲ Rise':'▼ Fall'}</strong> direction every{' '}
-          <strong>{duration} seconds</strong>
-        </div>
-
-        <div style={{ display:'flex', gap:12 }}>
-          <button onClick={handleStart} disabled={botRunning || loading} style={{
-            padding:'12px 32px', background:botRunning?'#ccc':'#ff444f', color:'#fff',
-            border:'none', borderRadius:4, fontWeight:700, fontSize:14, cursor:botRunning?'not-allowed':'pointer',
-          }}>
-            {loading ? 'Starting...' : '▶ Run Bot'}
-          </button>
-          {botRunning && (
-            <button onClick={onStopBot} style={{
-              padding:'12px 32px', background:'#fff', color:'#ff444f',
-              border:'1px solid #ff444f', borderRadius:4, fontWeight:700, fontSize:14, cursor:'pointer',
-            }}>
-              ■ Stop Bot
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ─── Charts Tab ─── */
 function ChartsTab({ botRunning }) {
@@ -935,7 +856,7 @@ export default function App() {
 
   const renderTab = () => {
     switch (activeTab) {
-      case 'botbuilder': return <BotBuilderTab user={user} onLogin={openLogin} botRunning={botRunning} onStartBot={handleStartBot} onStopBot={handleStopBot} />;
+      case 'botbuilder': return <BotBuilderWorkspace user={user} onLogin={openLogin} botRunning={botRunning} onStartBot={handleStartBot} onStopBot={handleStopBot} />;
       case 'charts': return <ChartsTab botRunning={botRunning} />;
       case 'tutorials': return <TutorialsTab />;
       case 'freebots': return <FreeBotsTab user={user} onLogin={openLogin} />;
