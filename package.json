@@ -1,1 +1,14 @@
-{"name":"dashaboard-dollarprinter","version":"1.0.0","description":"A dashboard for Dollar Printer","main":"index.js","scripts":{"start":"node server.js","client":"react-scripts start","build":"react-scripts build"},"dependencies":{"express":"^4.17.1","mongoose":"^5.10.9","cors":"^2.8.5","axios":"^0.21.1","react":"^17.0.2","react-dom":"^17.0.2","react-scripts":"4.0.3"}}
+{
+  "name": "dashaboard-dollarprinter",
+  "version": "1.0.0",
+  "description": "A dashboard for Dollar Printer",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^4.22.1"
+  }
+}
