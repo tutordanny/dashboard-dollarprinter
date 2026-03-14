@@ -37,6 +37,11 @@ externalPort = 3001
 localPort = 5000
 externalPort = 80
 
+[[ports]]
+localPort = 5715
+externalPort = 3002
+exposeLocalhost = true
+
 [deployment]
 deploymentTarget = "autoscale"
 run = ["bash", "-c", "node -e \"require('concurrently').default([{command:'node server.js',cwd:'backend',name:'API'},{command:'npm start',cwd:'frontend',name:'Web'}],{prefix:'name',killOthers:['failure','success']})\""]
