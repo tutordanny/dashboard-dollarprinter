@@ -1,0 +1,294 @@
+Create a full-stack web application called **Bot Simulation Platform** that will run under a single domain:
+
+dashboard.dollarprinter.pro
+
+This is a private trading bot simulator with an admin control panel.
+
+The platform must include a frontend trading dashboard, a backend simulation engine, a database, authentication, and an admin panel.
+
+The interface should be a professional trading dashboard style similar to platforms like Deriv (dark theme, sidebar navigation, chart area, trading controls), but all code must be original.
+
+Use the following technology stack:
+
+Frontend:
+Next.js (React)
+Tailwind CSS for styling
+Chart.js or Lightweight Charts for price chart
+
+Backend:
+Node.js with Express
+REST API endpoints
+
+Database:
+MongoDB using Mongoose
+
+Authentication:
+JWT authentication with roles (admin and user)
+
+Deployment structure:
+Frontend compatible with Vercel
+Backend compatible with server hosting or Replit server
+
+---
+
+APPLICATION STRUCTURE
+
+Create the following project structure:
+
+bot-platform/
+
+frontend/
+pages/
+index.js
+admin-login.js
+admin.js
+
+components/
+Sidebar.js
+TopBar.js
+ChartPanel.js
+BotBuilder.js
+TradeLog.js
+
+styles/
+globals.css
+
+utils/
+api.js
+
+backend/
+server.js
+bot-engine.js
+routes/
+auth.js
+bot.js
+admin.js
+
+database/
+models/
+User.js
+Balance.js
+Bot.js
+Trade.js
+
+seed.js
+
+package.json
+
+---
+
+FRONTEND REQUIREMENTS
+
+Create a trading dashboard layout.
+
+Layout design:
+
+Left sidebar:
+Dashboard
+Bots
+History
+Settings
+
+Top bar:
+Current balance
+Bot status indicator
+Start/Stop bot buttons
+
+Main panel:
+Price chart panel
+Bot strategy builder panel
+Trade log panel
+
+Bot builder panel must allow input for:
+Stake amount
+Direction (up/down)
+Duration
+Start bot button
+
+Trade log must display:
+Trade ID
+Stake
+Outcome
+Profit/Loss
+Timestamp
+
+Use dark theme with modern card panels similar to professional trading platforms.
+
+---
+
+ADMIN PANEL
+
+Admin login page:
+
+/admin-login
+
+After login redirect to:
+
+/admin
+
+Admin dashboard must allow control of:
+
+User balances
+Simulation settings
+Bot library
+Trade logs
+
+Simulation settings editable from admin panel:
+
+winProbability
+payoutRatio
+marketVolatility
+startingBalance
+
+---
+
+BACKEND REQUIREMENTS
+
+Create Express backend server.
+
+API endpoints:
+
+POST /api/login
+POST /api/run-bot
+POST /api/stop-bot
+GET /api/balance
+GET /api/trades
+POST /api/admin/update-settings
+
+---
+
+BOT SIMULATION ENGINE
+
+Create a file called bot-engine.js.
+
+This engine must simulate trading without connecting to any external broker API.
+
+The engine must:
+
+Generate fake market price ticks
+Execute bot trades
+Determine win/loss outcome
+Update balance
+Store trades in database
+
+Example engine logic:
+
+generate random price movement
+evaluate bot entry condition
+calculate result
+
+Trade outcome logic example:
+
+if randomNumber < winProbability
+trade = win
+profit = stake * payoutRatio
+else
+trade = loss
+profit = -stake
+
+---
+
+DATABASE MODELS
+
+User
+username
+passwordHash
+role
+
+Balance
+userId
+amount
+
+Bot
+name
+parameters
+ownerId
+
+Trade
+botId
+stake
+result
+profitLoss
+timestamp
+
+---
+
+AUTHENTICATION
+
+Use JWT tokens.
+
+Admin routes must check role = admin.
+
+Protected routes:
+admin panel
+admin API endpoints
+
+---
+
+INITIAL DATABASE SEED
+
+Create default admin account:
+
+username: lightspeed
+password: Thunes2020!
+role: admin
+
+Initial balance: 10000
+
+---
+
+SIMULATION ENGINE FEATURES
+
+Bot engine should support:
+
+running bot
+stopping bot
+logging trades
+simulated market movement
+adjustable probability
+
+Admin panel must be able to modify:
+
+win probability
+payout ratio
+market volatility
+
+---
+
+VISUAL DESIGN
+
+Use modern dark theme:
+
+dark background
+card panels
+sidebar navigation
+top status bar
+chart area
+bot control panel
+
+Make UI responsive and clean.
+
+---
+
+FINAL RESULT
+
+The finished application should include:
+
+Trading dashboard
+Bot simulation engine
+Trade logs
+Balance tracking
+Admin control panel
+Authentication system
+MongoDB database
+
+Everything must run under a single domain with these routes:
+
+/ -> main dashboard
+/admin-login -> admin login
+/admin -> admin dashboard
+
+---
+
+Write complete code for all files required to run the project.
+Include package.json dependencies and instructions to start the server.

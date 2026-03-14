@@ -1,14 +1,13 @@
 {
-  "name": "dashaboard-dollarprinter",
+  "name": "bot-platform",
   "version": "1.0.0",
-  "description": "A dashboard for Dollar Printer",
-  "main": "server.js",
+  "description": "Bot Simulation Platform",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "concurrently \"cd backend && node server.js\" \"cd frontend && npm run dev\"",
+    "start": "concurrently \"cd backend && node server.js\" \"cd frontend && npm run dev\"",
+    "install:all": "cd backend && npm install && cd ../frontend && npm install"
   },
   "dependencies": {
-    "cors": "^2.8.6",
-    "express": "^4.22.1"
+    "concurrently": "^8.2.2"
   }
 }

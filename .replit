@@ -21,13 +21,17 @@ args = "Start application"
 name = "Start application"
 author = "agent"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node server.js"
-waitForPort = 5000
-
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node -e \"require('concurrently').default([{command:'node server.js',cwd:'backend',name:'API'},{command:'npm run dev',cwd:'frontend',name:'Web'}],{prefix:'name',killOthers:['failure','success']})\""
+waitForPort = 5000
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
 
 [[ports]]
 localPort = 5000
@@ -35,4 +39,5 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["node", "server.js"]
+run = ["bash", "-c", "node -e \"require('concurrently').default([{command:'node server.js',cwd:'backend',name:'API'},{command:'npm start',cwd:'frontend',name:'Web'}],{prefix:'name',killOthers:['failure','success']})\""]
+build = ["bash", "-c", "cd frontend && npm run build"]
